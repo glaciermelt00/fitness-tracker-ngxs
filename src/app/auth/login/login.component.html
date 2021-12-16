@@ -1,1 +1,12 @@
-<p>login works!</p>
+<form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field hintLabel="Please enter a valid email." *ngIf="loginForm.controls.email as ctrl">
+    <input type="email" matInput placeholder="Your email" [formControl]="ctrl" required>
+    <mat-error *ngIf="ctrl.hasError('required')">Missing email.</mat-error>
+    <mat-error *ngIf="ctrl.hasError('email')">Invalid email.</mat-error>
+  </mat-form-field>
+  <mat-form-field hintLabel="Please enter your password" *ngIf="loginForm.controls.password as ctrl">
+    <input type="password" matInput placeholder="Your password" [formControl]="ctrl">
+    <mat-error>Missing password.</mat-error>
+  </mat-form-field>
+  <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid"> Submit</button>
+</form>
