@@ -41,6 +41,6 @@ import { TrainingModule }        from './training/training.module';
     TrainingService,
     UIService
   ],
-  bootstrap:       [AppComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
