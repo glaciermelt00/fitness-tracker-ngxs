@@ -19,7 +19,6 @@ import { MaterialModule }  from '../material.module';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-  ],
-  exports: []
+  ]
 })
 export class AuthModule { }
