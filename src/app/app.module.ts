@@ -16,7 +16,7 @@ import { environment }          from '../environments/environment';
 import { UIService }            from './shared/ui.service';
 import { AuthModule }           from './auth/auth.module';
 import { SharedModule }         from './shared/shared.module';
-import { appReducer }           from './app.reducer';
+import { reducers }             from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import { appReducer }           from './app.reducer';
     AuthModule,
     AngularFirestoreModule,
     SharedModule,
-    StoreModule.forRoot({ui: appReducer})
+    StoreModule.forRoot(reducers)
   ],
   providers: [
     AuthService,
