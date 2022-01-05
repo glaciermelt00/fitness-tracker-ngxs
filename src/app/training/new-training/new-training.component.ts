@@ -6,7 +6,6 @@ import { Observable, Subscription } from 'rxjs';
 
 import { TrainingService } from '../training.service';
 import { Exercise }        from '../exercise.model';
-// import { UIService }       from '../../shared/ui.service';
 import * as fromRoot       from '../../app.reducer';
 
 @Component({
@@ -21,7 +20,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   constructor(
     private trainingService: TrainingService,
-    // private uiService:       UIService,
     private store:           Store<fromRoot.State>
   ) { }
 
@@ -44,9 +42,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // if (this.loadingSubscription) {
-    //   this.loadingSubscription.unsubscribe();
-    // }
     if (this.exerciseSubscription) {
       this.exerciseSubscription.unsubscribe();
     }

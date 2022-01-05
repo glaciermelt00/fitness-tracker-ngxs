@@ -5,7 +5,6 @@ import { Store }             from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AuthService } from '../auth.service';
-// import { UIService }   from '../../shared/ui.service';
 import * as fromRoot   from '../../app.reducer';
 
 @Component({
@@ -19,7 +18,6 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    // private uiService:   UIService,
     private store:       Store<fromRoot.State>
   ) { }
 
