@@ -1,3 +1,5 @@
+import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
+
 import {
   TrainingActions,
   SET_AVAILABLE_TRAININGS,
@@ -52,6 +54,7 @@ export function trainingReducer(state = initialState, action: TrainingActions) {
   }
 }
 
-export const getAvailableExercises = (state: TrainingState) => state.availableExercises;
-export const getFinishedExercises  = (state: TrainingState) => state.finishedExercises;
-export const getActiveTraining     = (state: TrainingState) => state.activeTrining;
+export const getTrainingState = createFeatureSelector<TrainingState>('training');
+export const getAvailableExercises = createSelector(getTrainingState, (state: TrainingState) => state.availableExercises);
+export const getFinishedExercises  = createSelector(getTrainingState, (state: TrainingState) => state.finishedExercises);
+export const getActiveTraining     = createSelector(getTrainingState, (state: TrainingState) => state.activeTrining);
