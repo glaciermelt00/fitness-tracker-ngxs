@@ -13,7 +13,7 @@ import * as fromRoot from '../app.reducer';
 export interface TrainingState {
   availableExercises: Exercise[];
   finishedExercises:  Exercise[];
-  activeTraining:      Exercise
+  activeTraining:     Exercise
 }
 
 export interface State extends fromRoot.State {
@@ -23,7 +23,7 @@ export interface State extends fromRoot.State {
 const initialState: TrainingState = {
   availableExercises: [],
   finishedExercises:  [],
-  activeTraining:      null
+  activeTraining:     null
 }
 
 export function trainingReducer(state = initialState, action: TrainingActions) {
