@@ -11,18 +11,17 @@ import { TrainingRoutingModule }    from "./training-routing.module";
 import { trainingReducer }          from "./training.reducer";
 
 @NgModule({
-  declarations: [
-    TrainingComponent,
-    CurrentTrainingComponent,
-    NewTrainingComponent,
-    PastTrainingsComponent,
-    StopTrainingComponent
-  ],
-  imports: [
-    SharedModule,
-    TrainingRoutingModule,
-    StoreModule.forFeature('training', trainingReducer)
-  ],
-  entryComponents: [StopTrainingComponent]
+    declarations: [
+        TrainingComponent,
+        CurrentTrainingComponent,
+        NewTrainingComponent,
+        PastTrainingsComponent,
+        StopTrainingComponent
+    ],
+    imports: [
+        SharedModule,
+        TrainingRoutingModule,
+        StoreModule.forFeature('training', trainingReducer)
+    ]
 })
 export class TrainingModule {}
