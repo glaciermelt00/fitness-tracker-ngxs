@@ -9,7 +9,7 @@ export namespace TrainingAction {
   export class SetAvailable {
     readonly type = SET_AVAILABLE_TRAININGS;
 
-    constructor(public availableExercises: Exercise[]) {}
+    constructor(public payload: Exercise[]) {}
   }
 
   export class SetFinished {

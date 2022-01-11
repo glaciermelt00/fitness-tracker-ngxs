@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm }            from '@angular/forms';
-import { Store }             from '@ngrx/store';
+import { Select, Store }     from '@ngxs/store';
 
 import { Observable } from 'rxjs';
 
 import { TrainingService } from '../training.service';
 import { Exercise }        from '../exercise.model';
-import * as fromTraining   from '../training.reducer';
-import * as fromRoot       from '../../app.reducer';
+// import * as fromTraining   from '../training.reducer';
+// import * as fromRoot       from '../../app.reducer';
+import { TrainingState }   from '../training.state';
 
 @Component({
   selector: 'app-new-training',
@@ -17,6 +18,8 @@ import * as fromRoot       from '../../app.reducer';
 export class NewTrainingComponent implements OnInit {
   exercises$: Observable<Exercise[]>;
   isLoading$: Observable<boolean>;
+
+  @Select(TrainingState.getActiveTraining) activeTraining$: Observable<Exercise>;
 
   constructor(
     private trainingService: TrainingService,

@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule }       from '@angular/fire/compat';
 import { AngularFirestoreModule }  from '@angular/fire/compat/firestore';
 import { StoreModule }             from '@ngrx/store';
+import { NgxsModule }              from '@ngxs/store';
 
 import { AppComponent }         from './app.component';
 import { WelcomeComponent }     from './welcome/welcome.component';
@@ -17,6 +18,7 @@ import { UIService }            from './shared/ui.service';
 import { AuthModule }           from './auth/auth.module';
 import { SharedModule }         from './shared/shared.module';
 import { reducers }             from './app.reducer';
+import { TrainingState }        from './training/training.state';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { reducers }             from './app.reducer';
     AuthModule,
     AngularFirestoreModule,
     SharedModule,
-    StoreModule.forRoot(reducers)
+    StoreModule.forRoot(reducers),
+    NgxsModule.forRoot([TrainingState])
   ],
   providers: [
     AuthService,
