@@ -1,10 +1,8 @@
 import { Injectable }                            from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 
-import { tap, finalize } from 'rxjs/operators';
-
 import { Exercise }        from './exercise.model';
-import { TrainingAction } from './training.actions';
+import { TrainingAction }  from './training.actions';
 import { TrainingService } from './training.service';
 
 export interface TrainingStateModel {
@@ -26,59 +24,58 @@ export class TrainingState {
   constructor(private trainingService: TrainingService) {}
 
   @Action(TrainingAction.SetAvailable)
-  getHeroes(ctx: StateContext<TrainingStateModel>) {
+  setAvailable(ctx: StateContext<TrainingStateModel>, action: TrainingAction.SetAvailable) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
-      availableExercises: state.availableExercises
+      availableExercises: action.payload
     });
   }
 
-  @Action(HeroAction.Get)
-  getHero(ctx: StateContext<HeroStateModel>, action: HeroAction.Get) {
-    return this.heroService.getHero(action.id).pipe(
-      tap((data) => {
-        ctx.patchState({ selectedHero: data });
-      })
-    );
+  @Action(TrainingAction.SetFinished)
+  setFinished(ctx: StateContext<TrainingStateModel>, action: TrainingAction.SetFinished) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      finishedExercises: action.payload
+    });
   }
 
-  @Action(HeroAction.Add)
-  addHero(ctx: StateContext<HeroStateModel>, action: HeroAction.Add) {
-    return this.heroService.addHero(action.hero).pipe(
-      finalize(() => {
-        ctx.dispatch(new HeroAction.GetAll());
-      })
-    );
+  @Action(TrainingAction.Start)
+  start(ctx: StateContext<TrainingStateModel>, action: TrainingAction.Start) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      activeTraining: { ...state.availableExercises.find(ex => ex.id === action.payload) }
+    });
   }
 
-  @Action(HeroAction.Delete)
-  deleteHero(ctx: StateContext<HeroStateModel>, action: HeroAction.Delete) {
-    return this.heroService.deleteHero(action.hero).pipe(
-      finalize(() => {
-        ctx.dispatch(new HeroAction.GetAll());
-      })
-    );
-  }
-
-  @Action(HeroAction.Update)
-  updateHero(ctx: StateContext<HeroStateModel>, action: HeroAction.Update) {
-    return this.heroService.updateHero(action.hero).pipe(
-      finalize(() => {
-        ctx.patchState({
-          selectedHero: action.hero,
-        });
-      })
-    );
+  @Action(TrainingAction.Stop)
+  stop(ctx: StateContext<TrainingStateModel>, action: TrainingAction.Stop) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      activeTraining: null
+    });
   }
 
   @Selector()
-  static heroes(state: HeroStateModel) {
-    return state.heroes;
+  static getAvailableExercises(state: TrainingStateModel) {
+    return state.availableExercises;
   }
 
   @Selector()
-  static selectedHero(state: HeroStateModel) {
-    return state.selectedHero;
+  static getFinishedExercises(state: TrainingStateModel) {
+    return state.finishedExercises;
+  }
+
+  @Selector()
+  static getActiveTraining(state: TrainingStateModel) {
+    return state.activeTraining;
+  }
+
+  @Selector()
+  static getIsTraining(state: TrainingStateModel) {
+    return state.activeTraining != null;
   }
 }
