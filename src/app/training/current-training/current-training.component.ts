@@ -9,7 +9,6 @@ import { StopTrainingComponent } from './stop-training.component';
 import { TrainingService }       from '../training.service';
 import { TrainingState }         from '../training.state';
 import { Exercise }              from '../exercise.model';
-// import * as fromTraining         from '../training.reducer';
 
 @Component({
   selector: 'app-current-training',

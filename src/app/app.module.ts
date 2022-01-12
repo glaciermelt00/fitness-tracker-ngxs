@@ -17,7 +17,8 @@ import { environment }          from '../environments/environment';
 import { UIService }            from './shared/ui.service';
 import { AuthModule }           from './auth/auth.module';
 import { SharedModule }         from './shared/shared.module';
-import { reducers }             from './app.reducer';
+import { AuthState }            from './auth/auth.state';
+import { UIState }              from './shared/ui.state';
 import { TrainingState }        from './training/training.state';
 
 @NgModule({
@@ -35,13 +36,12 @@ import { TrainingState }        from './training/training.state';
     AuthModule,
     AngularFirestoreModule,
     SharedModule,
-    StoreModule.forRoot(reducers),
-    NgxsModule.forRoot([TrainingState])
+    NgxsModule.forRoot([AuthState, UIState, TrainingState])
   ],
   providers: [
     AuthService,
-    TrainingService,
-    UIService
+    UIService,
+    TrainingService
   ],
   bootstrap: [AppComponent]
 })

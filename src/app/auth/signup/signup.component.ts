@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm }            from '@angular/forms';
-import { Store }             from '@ngrx/store';
+import { Select }            from '@ngxs/store';
 
 import { Observable } from 'rxjs';
 
 import { AuthService } from '../auth.service';
-import * as fromRoot   from '../../app.reducer';
+import { UIState }     from '../../shared/ui.state';
 
 @Component({
   selector: 'app-signup',
@@ -16,13 +16,14 @@ export class SignupComponent implements OnInit {
   maxDate;
   isLoading$: Observable<boolean>;
 
+  @Select(UIState.getIsLoading) getIsLoading$: Observable<boolean>;
+
   constructor(
-    private authService: AuthService,
-    private store:       Store<fromRoot.State>
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    this.isLoading$ = this.getIsLoading$;
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }

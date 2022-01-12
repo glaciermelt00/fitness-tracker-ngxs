@@ -6,11 +6,11 @@ import { Observable, Subscription } from 'rxjs';
 import { take }                  from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 
-import { Exercise }      from './exercise.model';
-import { UIService }     from '../shared/ui.service';
-import * as UI           from '../shared/ui.actions';
-import { TrainingAction} from './training.actions';
-import { TrainingState } from './training.state';
+import { Exercise }       from './exercise.model';
+import { UIService }      from '../shared/ui.service';
+import { UIAction }       from '../shared/ui.actions';
+import { TrainingAction } from './training.actions';
+import { TrainingState }  from './training.state';
 
 @Injectable()
 export class TrainingService {
@@ -25,7 +25,7 @@ export class TrainingService {
   ) {}
 
   fetchAvailableExercises() {
-    this.store.dispatch(new UI.StartLoading());
+    this.store.dispatch(new UIAction.StartLoading);
     this.fbSubs.push(this.db
     .collection('availableExercises')
     .snapshotChanges()
@@ -39,10 +39,10 @@ export class TrainingService {
       });
     })
     .subscribe((exercises: Exercise[]) => {
-      this.store.dispatch(new UI.StopLoading());
+      this.store.dispatch(new UIAction.StopLoading);
       this.store.dispatch(new TrainingAction.SetAvailable(exercises));
     }, error => {
-      this.store.dispatch(new UI.StopLoading());
+      this.store.dispatch(new UIAction.StopLoading);
       this.uiService.showSnackbar(
         'Fetching exercises failed, please try again later',
         null,
