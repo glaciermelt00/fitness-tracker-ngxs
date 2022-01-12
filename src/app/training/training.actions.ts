@@ -7,24 +7,24 @@ export const STOP_TRAINING           = '[Training] Stop Training';
 
 export namespace TrainingAction {
   export class SetAvailable {
-    readonly type = SET_AVAILABLE_TRAININGS;
+    static readonly type = SET_AVAILABLE_TRAININGS;
 
     constructor(public payload: Exercise[]) {}
   }
 
   export class SetFinished {
-    readonly type = SET_FINISHED_TRAININGS;
+    static readonly type = SET_FINISHED_TRAININGS;
 
     constructor(public payload: Exercise[]) {}
   }
 
   export class Start {
-    readonly type = START_TRAINING;
+    static readonly type = START_TRAINING;
 
     constructor(public payload: string) {}
   }
 
   export class Stop {
-    readonly type = STOP_TRAINING;
+    static readonly type = STOP_TRAINING;
   }
 }

@@ -1,13 +1,19 @@
-import { AfterViewInit, Component, OnInit, ViewChild }  from '@angular/core';
-
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild
+}                             from '@angular/core';
 import { MatPaginator }       from '@angular/material/paginator';
 import { MatSort }            from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Store }              from '@ngrx/store';
+import { Select }             from '@ngxs/store';
+
+import { Observable } from 'rxjs';
 
 import { Exercise }        from '../exercise.model';
 import { TrainingService } from '../training.service';
-import * as fromTraining   from '../training.reducer';
+import { TrainingState }   from '../training.state';
 
 @Component({
   selector: 'app-past-trainings',
@@ -21,13 +27,14 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort)      sort:      MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  @Select(TrainingState.getFinishedExercises) getFinishedExercises$: Observable<Exercise[]>;
+
   constructor(
-    private trainingService: TrainingService,
-    private store:           Store<fromTraining.State>
+    private trainingService: TrainingService
   ) { }
 
   ngOnInit(): void {
-    this.store.select(fromTraining.getFinishedExercises).subscribe((exercises: Exercise[]) => {
+    this.getFinishedExercises$.subscribe((exercises: Exercise[]) => {
       this.dataSource.data = exercises;
     });
     this.trainingService.fetchCompleteOrCancelledExercises();

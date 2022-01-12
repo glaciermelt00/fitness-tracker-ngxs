@@ -3,7 +3,6 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 
 import { Exercise }        from './exercise.model';
 import { TrainingAction }  from './training.actions';
-import { TrainingService } from './training.service';
 
 export interface TrainingStateModel {
   availableExercises: Exercise[];
@@ -17,11 +16,10 @@ export interface TrainingStateModel {
     availableExercises: [],
     finishedExercises:  [],
     activeTraining:     null
-  },
+  }
 })
 @Injectable()
 export class TrainingState {
-  constructor(private trainingService: TrainingService) {}
 
   @Action(TrainingAction.SetAvailable)
   setAvailable(ctx: StateContext<TrainingStateModel>, action: TrainingAction.SetAvailable) {
