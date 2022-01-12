@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Store }             from '@ngrx/store';
+import { Select }            from '@ngxs/store';
 
 import { Observable } from 'rxjs';
 
-import * as fromTraining   from './training.reducer';
+import { TrainingState } from './training.state';
 
 @Component({
   selector: 'app-training',
@@ -13,9 +13,9 @@ import * as fromTraining   from './training.reducer';
 export class TrainingComponent implements OnInit {
   ongoingTraining$: Observable<boolean>;
 
-  constructor(private store: Store<fromTraining.State>) { }
+  @Select(TrainingState.getIsTraining) getIsTraining$: Observable<boolean>;
 
   ngOnInit(): void {
-    this.ongoingTraining$ = this.store.select(fromTraining.getIsTraining);
+    this.ongoingTraining$ = this.getIsTraining$;
   }
 }
