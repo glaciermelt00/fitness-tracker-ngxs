@@ -1,7 +1,6 @@
-import { Injectable }                  from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-
-import { AuthAction } from './auth.actions';
+import { Injectable }                    from '@angular/core';
+import { Emittable, Emitter, Receiver }  from '@ngxs-labs/emitter';
+import { Selector, State, StateContext } from '@ngxs/store';
 
 export interface AuthStateModel {
   isAuthenticated: boolean;
@@ -16,15 +15,18 @@ export interface AuthStateModel {
 @Injectable()
 export class AuthState {
 
-  @Action(AuthAction.SetAuthenticated)
-  setAuthenticated(ctx: StateContext<AuthStateModel>) {
+  @Emitter(AuthState.setAuthenticated)   static actSetAuthenticated: Emittable<void>;
+  @Emitter(AuthState.setUnauthenticated) static actSetUnauthenticated: Emittable<void>;
+
+  @Receiver()
+  static setAuthenticated(ctx: StateContext<AuthStateModel>) {
     ctx.setState({
       isAuthenticated: true
     });
   }
 
-  @Action(AuthAction.SetUnauthenticated)
-  setUnauthenticated(ctx: StateContext<AuthStateModel>) {
+  @Receiver()
+  static setUnauthenticated(ctx: StateContext<AuthStateModel>) {
     ctx.setState({
       isAuthenticated: false
     });
