@@ -15,7 +15,7 @@ export interface AuthStateModel {
 @Injectable()
 export class AuthState {
 
-  @Emitter(AuthState.setAuthenticated)   static actSetAuthenticated: Emittable<void>;
+  @Emitter(AuthState.setAuthenticated)   static actSetAuthenticated:   Emittable<void>;
   @Emitter(AuthState.setUnauthenticated) static actSetUnauthenticated: Emittable<void>;
 
   @Receiver()
