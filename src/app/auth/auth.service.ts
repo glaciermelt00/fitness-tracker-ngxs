@@ -7,7 +7,7 @@ import { AuthData }        from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UIService }       from '../shared/ui.service';
 import { UIAction }        from '../shared/ui.actions';
-import { AuthAction }      from './auth.actions';
+import { AuthState }       from './auth.state';
 
 @Injectable()
 export class AuthService {
@@ -23,11 +23,11 @@ export class AuthService {
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.store.dispatch(new AuthAction.SetAuthenticated);
+        AuthState.actSetAuthenticated.emit();
         this.router.navigate(['/training']);
       } else {
         this.trainingService.cancelSubscriptions();
-        this.store.dispatch(new AuthAction.SetUnauthenticated);
+        AuthState.actSetUnauthenticated.emit();
         this.router.navigate(['/login']);
       }
     });

@@ -3,8 +3,8 @@ import { BrowserModule }           from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule }       from '@angular/fire/compat';
 import { AngularFirestoreModule }  from '@angular/fire/compat/firestore';
-import { StoreModule }             from '@ngrx/store';
 import { NgxsModule }              from '@ngxs/store';
+import { NgxsEmitPluginModule }    from '@ngxs-labs/emitter';
 
 import { AppComponent }         from './app.component';
 import { WelcomeComponent }     from './welcome/welcome.component';
@@ -36,7 +36,8 @@ import { TrainingState }        from './training/training.state';
     AuthModule,
     AngularFirestoreModule,
     SharedModule,
-    NgxsModule.forRoot([AuthState, UIState, TrainingState])
+    NgxsModule.forRoot([AuthState, UIState, TrainingState]),
+    NgxsEmitPluginModule.forRoot()
   ],
   providers: [
     AuthService,
