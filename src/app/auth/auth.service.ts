@@ -1,12 +1,11 @@
 import { Injectable }      from '@angular/core';
 import { Router }          from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Store }           from '@ngxs/store';
 
 import { AuthData }        from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UIService }       from '../shared/ui.service';
-import { UIAction }        from '../shared/ui.actions';
+import { UIState }         from '../shared/ui.state';
 import { AuthState }       from './auth.state';
 
 @Injectable()
@@ -16,8 +15,7 @@ export class AuthService {
     private router:          Router,
     private afAuth:          AngularFireAuth,
     private trainingService: TrainingService,
-    private uiService:       UIService,
-    private store:           Store
+    private uiService:       UIService
   ) {}
 
   initAuthListener() {
@@ -34,26 +32,26 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
-    this.store.dispatch(new UIAction.StartLoading);
+    UIState.actStartLoading.emit();
     this.afAuth
       .createUserWithEmailAndPassword(authData.email, authData.password)
       .then(result => {
-        this.store.dispatch(new UIAction.StopLoading);
+        UIState.actStopLoading.emit();
       })
       .catch(error => {
-        this.store.dispatch(new UIAction.StopLoading);
+        UIState.actStopLoading.emit();
         this.uiService.showSnackbar(error.message, null, 3000);
       });
   }
 
   login(authData: AuthData) {
-    this.store.dispatch(new UIAction.StartLoading);
+    UIState.actStartLoading.emit();
     this.afAuth.signInWithEmailAndPassword(authData.email, authData.password)
     .then(result => {
-      this.store.dispatch(new UIAction.StopLoading);
+      UIState.actStopLoading.emit();
     })
     .catch(error => {
-      this.store.dispatch(new UIAction.StopLoading);
+      UIState.actStopLoading.emit();
       this.uiService.showSnackbar(error.message, null, 3000);
     });
   }
