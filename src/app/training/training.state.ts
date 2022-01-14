@@ -1,8 +1,18 @@
-import { Injectable }                            from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
 
-import { Exercise }        from './exercise.model';
-import { TrainingAction }  from './training.actions';
+import { Injectable }                                  from '@angular/core';
+import { Emittable, Emitter, EmitterAction, Receiver } from '@ngxs-labs/emitter';
+import { State, StateContext, Selector }               from '@ngxs/store';
+
+import { Exercise } from './exercise.model';
+
+//--[ Constant ]--------------------------
+const STATE_NAME = 'training';
+
+const STATE_DEFAULTS_VALUES: TrainingStateModel = {
+  availableExercises: [],
+  finishedExercises:  [],
+  activeTraining:     null
+}
 
 export interface TrainingStateModel {
   availableExercises: Exercise[];
@@ -11,18 +21,24 @@ export interface TrainingStateModel {
 }
 
 @State<TrainingStateModel>({
-  name: 'training',
-  defaults: {
-    availableExercises: [],
-    finishedExercises:  [],
-    activeTraining:     null
-  }
+  name:     STATE_NAME,
+  defaults: STATE_DEFAULTS_VALUES
 })
 @Injectable()
 export class TrainingState {
 
-  @Action(TrainingAction.SetAvailable)
-  setAvailable(ctx: StateContext<TrainingStateModel>, action: TrainingAction.SetAvailable) {
+  //--[ Emitter ]--------------------------
+  @Emitter(TrainingState.setAvailable) static actSetAvailable: Emittable<Exercise[]>;
+  @Emitter(TrainingState.setFinished)  static actSetFinished:  Emittable<Exercise[]>;
+  @Emitter(TrainingState.start)        static actStart:        Emittable<string>;
+  @Emitter(TrainingState.stop)         static actStop:         Emittable<void>;
+
+  //--[ Receiver ]--------------------------
+  @Receiver()
+  static setAvailable(
+    ctx:    StateContext<TrainingStateModel>,
+    action: EmitterAction<Exercise[]>
+  ) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
@@ -30,8 +46,11 @@ export class TrainingState {
     });
   }
 
-  @Action(TrainingAction.SetFinished)
-  setFinished(ctx: StateContext<TrainingStateModel>, action: TrainingAction.SetFinished) {
+  @Receiver()
+  static setFinished(
+    ctx:    StateContext<TrainingStateModel>,
+    action: EmitterAction<Exercise[]>
+  ) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
@@ -39,8 +58,11 @@ export class TrainingState {
     });
   }
 
-  @Action(TrainingAction.Start)
-  start(ctx: StateContext<TrainingStateModel>, action: TrainingAction.Start) {
+  @Receiver()
+  static start(
+    ctx:    StateContext<TrainingStateModel>,
+    action: EmitterAction<string>
+  ) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
@@ -48,8 +70,11 @@ export class TrainingState {
     });
   }
 
-  @Action(TrainingAction.Stop)
-  stop(ctx: StateContext<TrainingStateModel>, action: TrainingAction.Stop) {
+  @Receiver()
+  static stop(
+    ctx:    StateContext<TrainingStateModel>,
+    action: EmitterAction<void>
+  ) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
@@ -57,6 +82,7 @@ export class TrainingState {
     });
   }
 
+  //--[ Selector ]--------------------------
   @Selector()
   static getAvailableExercises(state: TrainingStateModel) {
     return state.availableExercises;

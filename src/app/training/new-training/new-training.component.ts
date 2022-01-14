@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm }            from '@angular/forms';
-import { Select, Store }     from '@ngxs/store';
+import { Select }            from '@ngxs/store';
 
 import { Observable } from 'rxjs';
 
@@ -20,10 +20,7 @@ export class NewTrainingComponent implements OnInit {
   @Select(TrainingState.getIsTraining)         getIsTraining$: Observable<boolean>;
   @Select(TrainingState.getAvailableExercises) getAvailableExercises$: Observable<Exercise[]>;
 
-  constructor(
-    private trainingService: TrainingService,
-    private store:           Store
-  ) { }
+  constructor(private trainingService: TrainingService) { }
 
   ngOnInit(): void {
     this.isLoading$ = this.getIsTraining$;
