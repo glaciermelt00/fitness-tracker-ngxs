@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 import { Exercise }       from './exercise.model';
 import { UIService }      from '../shared/ui.service';
 import { UIState }        from '../shared/ui.state';
-import { TrainingState } from './training.state';
+import { TrainingState }  from './training.state';
 
 @Injectable()
 export class TrainingService {
